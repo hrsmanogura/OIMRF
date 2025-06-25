@@ -1,0 +1,130 @@
+﻿@model OIMRF.ViewModels.LoginViewModel
+
+@{
+    Layout = "_Layout1";
+    ViewData["HideSidebar"] = true;
+    ViewData["Hidefooter"] = true;
+    ViewData["Hidenav"] = true;
+}
+
+<div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-12 col-md-8 col-lg-5">
+        <!-- Centered Logo -->
+        <div class="text-center mb-4">
+            <img src="/media/logo-oimrfs.svg" alt="App Logo" style="max-width: 400px;" />
+        </div>
+
+        <!-- Login Form -->
+        <form asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group mb-4">
+                <label asp-for="Email" class="form-label fs-5 fw-bold">Username</label>
+                <input asp-for="Email" class="form-control form-control-lg" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="Password" class="form-label fs-5 fw-bold">Password</label>
+                <input asp-for="Password" type="password" class="form-control form-control-lg" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-4">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">Login</button>
+            </div>
+            <div class="d-grid mt-2">
+                <a href="@Url.Action("Register", "Home")" class="btn btn-outline-secondary btn-lg">Register</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- OTP Modal -->
+<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="otpModalLabel">Enter OTP</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="otpForm" method="post" asp-action="VerifyOtp">
+                    <div class="mb-3">
+                        <label for="otpCode" class="form-label">One-Time Password (OTP)</label>
+                        <input type="text" name="OtpCode" id="otpCode" class="form-control" maxlength="6" required />
+                        @if (TempData["OtpError"] != null)
+                        {
+                            <span class="text-danger">@TempData["OtpError"]</span>
+                        }
+                    </div>
+                    <input type="hidden" name="Email" value="@Model?.Email" />
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Verify</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="changePasswordModalLabel">Set New Password</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="SetNewPassword">
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" name="NewPassword" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" name="ConfirmPassword" class="form-control" required />
+                        @if (TempData["PasswordError"] != null)
+                        {
+                            <span class="text-danger">@TempData["PasswordError"]</span>
+                        }
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        @if (TempData["ShowOtpModal"]?.ToString() == "true")
+        {
+            <text>
+                        var otpModal = new bootstrap.Modal(document.getElementById('otpModal'));
+                        otpModal.show();
+            </text>
+        }
+        });
+    </script>
+    <script>
+        @if (TempData["ShowChangePasswordModal"]?.ToString() == "true")
+        {
+            <text>
+                    var changeModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+                    changeModal.show();
+            </text>
+        }</script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

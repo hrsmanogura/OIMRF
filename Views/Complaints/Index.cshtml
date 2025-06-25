@@ -1,0 +1,45 @@
+﻿@model IEnumerable<OIMRF.Models.Complaints>
+
+@{
+    ViewData["Title"] = "Complaints";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Complaints</h2>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New Complaint</a>
+    </p>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Complaint ID</th>
+                <th>Location</th>
+                <th>Original Post Date</th>
+                <th>Platform</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ComplaintID</td>
+                    <td>@item.Location</td>
+                    <td>@item.OriginalPostDate?.ToString("MMM dd, yyyy")</td>
+                    <td>@item.Platform</td>
+                    <td>@item.SeverityOfComplaints</td>
+                    <td>@item.ResolutionStatus</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ComplaintGUID" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.ComplaintGUID" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.ComplaintGUID" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

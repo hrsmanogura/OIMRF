@@ -1,0 +1,103 @@
+﻿<div class="px-2">
+    <h6 class="text-muted mt-3 px-3" style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.5px; padding-top: 16px; padding-bottom: 8px;">NAVIGATION MENU</h6>
+    <ul class="nav flex-column mb-4" style="padding: 8px 0;">
+
+        <!-- Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" asp-controller="Home" asp-action="Dashboard"
+               style="border-radius: 4px; height: 48px; padding: 0 16px; color: rgba(0, 0, 0, 0.87); font-size: 0.875rem; font-weight: 400;">
+                <img src="/media/dashboard.svg" width="20" height="20" class="me-3" />
+                Dashboard
+            </a>
+        </li>
+
+        <!-- Reports -->
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" asp-controller="Reports" asp-action="Index"
+               style="border-radius: 4px; height: 48px; padding: 0 16px; color: rgba(0, 0, 0, 0.87); font-size: 0.875rem; font-weight: 400;">
+                <img src="/media/reports.svg" width="20" height="20" class="me-3" />
+                Reports
+            </a>
+        </li>
+
+        <!-- Complaints -->
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" asp-controller="Complaints" asp-action="Index"
+               style="border-radius: 4px; height: 48px; padding: 0 16px; color: rgba(0, 0, 0, 0.87); font-size: 0.875rem; font-weight: 400;">
+                <img src="/media/complaints.svg" width="20" height="20" class="me-3" />
+                Complaints
+            </a>
+        </li>
+
+        <!-- Response -->
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" asp-controller="" asp-action="Response"
+               style="border-radius: 4px; height: 48px; padding: 0 16px; color: rgba(0, 0, 0, 0.87); font-size: 0.875rem; font-weight: 400;">
+                <img src="/media/response.svg" width="20" height="20" class="me-3" />
+                Response
+            </a>
+        </li>
+
+        <!-- Settings (with submenu) -->
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#settingMenu" role="button" aria-expanded="false" aria-controls="settingMenu"
+               style="border-radius: 4px; height: 48px; padding: 0 16px; color: rgba(0, 0, 0, 0.87); font-size: 0.875rem; font-weight: 400;">
+                <div class="d-flex align-items-center">
+                    <img src="/media/settings.svg" width="20" height="20" class="me-3" />
+                    Settings
+                </div>
+                <img src="/media/chevron.svg" width="16" height="16" class="chevron-icon" />
+            </a>
+
+            <!-- Submenu -->
+            <div class="collapse" id="settingMenu">
+                <ul class="nav flex-column" style="padding-left: 24px;">
+
+                    <!-- User Management -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" asp-controller="UserManagement" asp-action="Index"
+                           style="border-radius: 4px; height: 40px; color: rgba(0, 0, 0, 0.87); font-size: 0.875rem; font-weight: 400;">
+                            <img src="/media/user-management.svg" width="16" height="16" class="me-3" />
+                            User Management
+                        </a>
+                    </li>
+
+                    <!-- Audit Trail -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" asp-controller="AuditTrail" asp-action="Index"
+                           style="border-radius: 4px; height: 40px; color: rgba(0, 0, 0, 0.87); font-size: 0.875rem; font-weight: 400;">
+                            <img src="~/media/audit-trail.svg" width="16" height="16" class="me-3" />
+                            Audit Trail
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+    </ul>
+</div>
+
+<style>
+    .nav-link:hover {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .nav-link[aria-expanded="true"] .chevron-icon {
+        transform: rotate(90deg);
+    }
+
+    .active .nav-link {
+        background-color: rgba(25, 118, 210, 0.08) !important;
+        color: #1976d2 !important;
+        font-weight: 500 !important;
+    }
+
+        .active .nav-link img {
+            filter: invert(32%) sepia(90%) saturate(747%) hue-rotate(190deg) brightness(91%) contrast(92%);
+        }
+
+    .chevron-icon {
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    }
+</style>

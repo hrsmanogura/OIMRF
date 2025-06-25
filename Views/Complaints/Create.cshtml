@@ -1,0 +1,132 @@
+﻿
+@using OIMRF.Models.Enums
+@model OIMRF.Models.Complaints
+
+@{
+    ViewData["Title"] = "Create Complaint";
+    var currentStep = ViewBag.CurrentStep ?? 1;
+}
+
+<h4>Create Complaint</h4>
+<hr />
+
+<form asp-action="Create" method="post">
+    <input type="hidden" id="CurrentStep" name="CurrentStep" value="@currentStep" />
+    <div class="card p-4">
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div><strong>Complaint ID:</strong> @Model.ComplaintID</div>
+            <div class="step-indicator">
+                <span class="badge bg-secondary" id="step1-badge">1</span>
+                <span class="badge bg-secondary" id="step2-badge">2</span>
+                <span class="badge bg-secondary" id="step3-badge">3</span>
+            </div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step step-1">
+            <div class="mb-3">
+                <label asp-for="Location" class="form-label">Location</label>
+                <input asp-for="Location" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="OriginalPostDate" class="form-label">Original Post Date</label>
+                <input asp-for="OriginalPostDate" class="form-control" type="date" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Platform" class="form-label">Platform</label>
+                <select asp-for="Platform" class="form-select" asp-items="Html.GetEnumSelectList<Platform>()">
+                    <option value="">-- Select Platform --</option>
+                </select>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-primary next-step">Next</button>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step step-2 d-none">
+            <div class="mb-3">
+                <label asp-for="OriginalPost" class="form-label">Original Post</label>
+                <textarea asp-for="OriginalPost" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="AccountProfileName" class="form-label">Account Name</label>
+                <input asp-for="AccountProfileName" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="NumberOfFollowers" class="form-label">Number of Followers</label>
+                <input asp-for="NumberOfFollowers" class="form-control" type="number" />
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-secondary prev-step">Back</button>
+                <button type="button" class="btn btn-primary next-step">Next</button>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step step-3 d-none">
+            <div class="mb-3">
+                <label asp-for="RootCauseAnalysis" class="form-label">Root Cause</label>
+                <input asp-for="RootCauseAnalysis" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="SeverityOfComplaints" class="form-label">Severity Of Complaints</label>
+                <select asp-for="SeverityOfComplaints" class="form-select" asp-items="Html.GetEnumSelectList<Severity>()">
+                    <option value="">-- Select Severity --</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Remarks" class="form-label">Remarks</label>
+                <textarea asp-for="Remarks" class="form-control"></textarea>
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-secondary prev-step">Back</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        let currentStep = parseInt('@currentStep');
+        const totalSteps = 3;
+
+        function showStep(step) {
+            for (let i = 1; i <= totalSteps; i++) {
+                document.querySelector('.step-' + i).classList.add('d-none');
+                document.getElementById('step' + i + '-badge').classList.remove('bg-primary');
+                document.getElementById('step' + i + '-badge').classList.add('bg-secondary');
+            }
+            document.querySelector('.step-' + step).classList.remove('d-none');
+            document.getElementById('step' + step + '-badge').classList.remove('bg-secondary');
+            document.getElementById('step' + step + '-badge').classList.add('bg-primary');
+        }
+
+        document.querySelectorAll('.next-step').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    document.getElementById('CurrentStep').value = currentStep;
+                    showStep(currentStep);
+                }
+            });
+        });
+
+        document.querySelectorAll('.prev-step').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    document.getElementById('CurrentStep').value = currentStep;
+                    showStep(currentStep);
+                }
+            });
+        });
+
+        document.querySelector('form').addEventListener('submit', () => {
+            document.getElementById('CurrentStep').value = currentStep;
+        });
+
+        showStep(currentStep);
+    </script>
+}

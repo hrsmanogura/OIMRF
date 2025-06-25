@@ -1,0 +1,99 @@
+﻿@model OIMRF.ViewModels.CreateUserViewModel
+@{
+    ViewData["Title"] = "Create User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Create User</h5>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="FirstName" class="form-label">First Name</label>
+                    <input asp-for="FirstName" class="form-control" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="MiddleName" class="form-label">Middle Name</label>
+                    <input asp-for="MiddleName" class="form-control" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="LastName" class="form-label">Last Name</label>
+                    <input asp-for="LastName" class="form-control" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="Suffix" class="form-label">Suffix</label>
+                    <select asp-for="Suffix" class="form-select">
+                        <option value="">-- None --</option>
+                        <option value="Jr.">Jr.</option>
+                        <option value="Sr.">Sr.</option>
+                        <option value="II">II</option>
+                        <option value="III">III</option>
+                        <option value="IV">IV</option>
+                    </select>
+                </div>
+
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+                    <input asp-for="ContactNumber" class="form-control" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="RoleId" class="form-label">Role</label>
+                    <select asp-for="RoleId" class="form-select" asp-items="ViewBag.Roles">
+                        <option value="">-- Select Role --</option>
+                    </select>
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            let contactInput = document.querySelector('input[name="ContactNumber"]');
+            let raw = contactInput.value.trim();
+
+            // Normalize to 09123456789 format
+            if (raw.startsWith("+63")) {
+                raw = "0" + raw.slice(3);
+            } else if (raw.startsWith("63")) {
+                raw = "0" + raw.slice(2);
+            }
+
+            // Strip non-numeric characters
+            raw = raw.replace(/\D/g, "");
+
+            if (!/^09\d{9}$/.test(raw)) {
+                alert("Invalid Philippine mobile number format. Must be like 09123456789.");
+                e.preventDefault();
+                return false;
+            }
+
+            contactInput.value = raw; // Set the normalized value
+        });
+    </script>
+}
