@@ -40,7 +40,7 @@ namespace OIMRF.Controllers
 
             if (user == null || user.Password != model.Password)
             {
-                ModelState.AddModelError("", "Invalid credentials.");
+                TempData["ToastError"] = "Invalid username or password.";
                 return View(model);
             }
 
@@ -173,7 +173,7 @@ namespace OIMRF.Controllers
             HttpContext.Session.Remove("LoginOTP");
             HttpContext.Session.Remove("UserEmail");
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -199,7 +199,7 @@ namespace OIMRF.Controllers
             _context.SaveChanges();
 
             TempData["SuccessMessage"] = "Password changed successfully.";
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("Index");
         }
 
 

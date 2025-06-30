@@ -15,7 +15,11 @@ namespace OIMRF.Properties.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Complaints> Complaints { get; set; }
         public DbSet<EnvironmentalLaws> EnvironmentalLaws { get; set; }
+        public DbSet<Designation> Designation { get; set; }
 
+        public DbSet<Permission> Permission { get; set; }
+
+        public DbSet<RolePermission> RolePermission { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

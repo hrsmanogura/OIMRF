@@ -10,6 +10,10 @@
     z-index: 999;
 }
 
+* {
+    font-family: 'Inter', sans-serif !important;
+}
+
 .main-content {
     margin-left: 260px;
     padding: 30px;

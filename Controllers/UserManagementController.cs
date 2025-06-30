@@ -217,10 +217,5 @@ namespace OIMRF.Controllers
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
-
-
-
-
-
     }
 }

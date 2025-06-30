@@ -18,6 +18,9 @@ namespace OIMRF.Models
 
         public Guid? RoleId { get; set; }
 
+        public Guid? DesignationId { get; set; } 
+        public Designation? Designation { get; set; } 
+
         public string? FirstName { get; set; }
 
         public string? MiddleName { get; set; }
@@ -31,5 +34,9 @@ namespace OIMRF.Models
         public bool IsVerified { get; set; }
 
         public bool IsActivated { get; set; }
+
+        public string? OTP { get; set; }
+
+        public DateTime? OTPExpiry { get; set; }
     }
 }

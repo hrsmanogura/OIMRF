@@ -1,0 +1,95 @@
+﻿@model IEnumerable<OIMRF.Models.Role>
+
+@{
+    ViewData["Title"] = "Role Management";
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Role Management</h2>
+
+    <!-- Add Role Button -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+        + Add Role
+    </button>
+
+    <!-- Roles Table -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Role Name</th>
+                <th>Description</th>
+                <th style="width: 120px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.RoleName</td>
+                    <td>@role.Description</td>
+                    <td>
+                        <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#editRoleModal-@role.RoleID">Edit</button>
+                    </td>
+                </tr>
+
+                <!-- Edit Modal for Each Role -->
+                <div class="modal fade" id="editRoleModal-@role.RoleID" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form asp-action="Edit" method="post">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Role</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="RoleID" value="@role.RoleID" />
+                                    <div class="mb-3">
+                                        <label class="form-label">Role Name</label>
+                                        <input type="text" name="RoleName" class="form-control" value="@role.RoleName" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <textarea name="Description" class="form-control">@role.Description</textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Role Modal -->
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Role Name</label>
+                        <input type="text" name="RoleName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="Description" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

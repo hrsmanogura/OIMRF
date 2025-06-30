@@ -34,12 +34,18 @@
                 <input asp-for="RememberMe" class="form-check-input" />
                 <label asp-for="RememberMe" class="form-check-label">Remember me</label>
             </div>
-
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                <button type="submit" class="btn btn-success btn-lg w-100 d-flex align-items-center justify-content-center" style="font-size: 1.25rem;">
+                    <iconify-icon icon="mdi:login" class="me-2" width="1.25rem" height="1.25rem"></iconify-icon>
+                    <span class="fw-bold">Login</span>
+                </button>
             </div>
+
             <div class="d-grid mt-2">
-                <a href="@Url.Action("Register", "Home")" class="btn btn-outline-secondary btn-lg">Register</a>
+                <a href="@Url.Action("Register", "Home")" class="btn btn-outline-primary btn-lg w-100 d-flex align-items-center justify-content-center" style="font-size: 1.25rem;">
+                    <iconify-icon icon="material-symbols:group-add-outline" class="me-2" width="1.25rem" height="1.25rem"></iconify-icon>
+                    <span class="fw-bold">Sign Up</span>
+                </a>
             </div>
         </form>
     </div>
@@ -63,11 +69,10 @@
                             <span class="text-danger">@TempData["OtpError"]</span>
                         }
                     </div>
-                    <input type="hidden" name="Email" value="@Model?.Email" />
+                    <input type="hidden" name="Email" value="@TempData["UserEmail"]" />
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success">Verify</button>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -83,6 +88,7 @@
             </div>
             <div class="modal-body">
                 <form method="post" asp-action="SetNewPassword">
+                    <input type="hidden" name="Email" value="@TempData["UserEmail"]" />
                     <div class="mb-3">
                         <label for="newPassword" class="form-label">New Password</label>
                         <input type="password" name="NewPassword" class="form-control" required />
@@ -104,6 +110,23 @@
     </div>
 </div>
 
+<!-- Toast Message (Top Right Corner) -->
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+        @if (TempData["ToastError"] != null)
+        {
+            <div class="toast text-white bg-danger border-0 show" role="alert" id="errorToast">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        @TempData["ToastError"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
 
 @section Scripts {
     <script>
@@ -115,16 +138,27 @@
                         otpModal.show();
             </text>
         }
-        });
-    </script>
-    <script>
+
         @if (TempData["ShowChangePasswordModal"]?.ToString() == "true")
         {
             <text>
-                    var changeModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
-                    changeModal.show();
+                        var changeModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+                        changeModal.show();
             </text>
-        }</script>
+        }
+        @if (TempData["ToastError"] != null)
+        {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ToastError"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+        }
+        });
+
+
+    </script>
+
+
 
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

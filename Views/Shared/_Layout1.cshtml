@@ -7,30 +7,49 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Foreshore.styles.css" asp-append-version="true" />
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
     <style>
         html, body {
             height: 100%;
             margin: 0;
         }
 
-        body {
-            background: url('/media/main-background.svg') no-repeat center center fixed;
+        .full-height {
+            height: 100vh;
+        }
+
+        .login-image {
+            background: url('/media/Login-image.svg') no-repeat center center;
             background-size: cover;
+        }
+
+        .login-form-wrapper {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding-right: 5vw;
+            justify-content: center;
         }
 
         .login-content {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
         }
     </style>
 </head>
 <body>
-    <div class="login-content">
-        @RenderBody()
+    <div class="container-fluid">
+        <div class="row full-height">
+            <!-- Left: Image -->
+            <div class="col-md-6 d-none d-md-block login-image">
+                <!-- Image is handled by background -->
+            </div>
+
+            <!-- Right: Login Form -->
+            <div class="col-md-6 col-12 login-form-wrapper">
+                <div class="login-content">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
